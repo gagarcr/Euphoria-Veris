@@ -1,0 +1,354 @@
+<!doctype html>  
+
+<html lang="en">  
+    <head>
+        <link rel="stylesheet" href="/bower_components/material-design-lite/material.min.css">
+        <script src="/bower_components/material-design-lite/material.min.js"></script>
+        <link rel="stylesheet" href="material.css">
+
+         <script src="/bower_components/jquery/dist/jquery.js"></script>
+         <script src="/socket.io/socket.io.js"></script>            
+
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Wide card with share menu button -->
+        <style>
+            .motorSlider > .mdl-card__title {
+              width: 100%;              
+            }
+            .motorSlider >  {
+              height: 50px;
+            }
+            footer{ 
+              overflow:hidden;
+              height:50px;            
+            }
+           
+        </style>
+
+    </head>
+    <body>
+        <!-- Simple header with fixed tabs. -->
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
+                    mdl-layout--fixed-tabs">
+          <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+              <!-- Title -->
+              <span class="mdl-layout-title mdl-badge" data-badge="NC">CH Main Controller</span>             
+            </div>
+            <!-- Tabs -->
+            <div class="mdl-layout__tab-bar">
+              <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Motor Control</a>
+              <a href="#fixed-tab-2" class="mdl-layout__tab">Sequencer</a>
+              <a href="#fixed-tab-3" class="mdl-layout__tab">Commands</a>
+              <a href="#fixed-tab-4" class="mdl-layout__tab">About</a>
+            </div>
+          </header>
+          <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Settings</span>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" id="btConnect" href="#">Connect</a>
+                <a class="mdl-navigation__link" id="btDisconnect" href="#">Disconnect</a>
+            </nav>
+          </div>
+          <main class="mdl-layout__content">
+            <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+              <div class="page-content">
+                <div class="mdl-grid">
+                  <!-- Slider container start -->
+                  <div class="motorSlider mdl-cell mdl-card mdl-shadow--2dp">  
+                    <div class="mdl-card__title">
+                      <h2 class="mdl-card__title-text">Motor G0</h2>
+                    </div>
+                    <div class="mdl-card__actions">
+                      <input class="mdl-slider mdl-js-slider" type="range" id="sl0"
+                        min="-1" max="1" value="0" step="0.01" tabindex="0"/>
+                    </div>                 
+                    <div class="mdl-card__menu">
+                       <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch_sl0"> 
+                         <input type="checkbox" id="switch_sl0" class="mdl-switch__input motorSwitch" checked />
+                      </label>
+                    </div>
+                  </div> 
+                  <!-- Slider container start -->
+                  <div class="motorSlider mdl-cell mdl-card mdl-shadow--2dp">  
+                    <div class="mdl-card__title">
+                      <h2 class="mdl-card__title-text">Motor G2</h2>
+                    </div>
+                    <div class="mdl-card__actions">
+                      <input class="mdl-slider mdl-js-slider" type="range" id="sl2"
+                        min="-1" max="1" value="0" step="0.01" tabindex="0"/>
+                    </div>                 
+                    <div class="mdl-card__menu">
+                       <label class="mdl-switch mdl-js-switch" for="switch_sl2"> 
+                         <input type="checkbox" id="switch_sl2" class="mdl-switch__input motorSwitch" checked />
+                      </label>
+                    </div>
+                  </div> 
+                  <!-- Slider container start -->
+                  <div class="motorSlider mdl-cell mdl-card mdl-shadow--2dp">  
+                    <div class="mdl-card__title">
+                      <h2 class="mdl-card__title-text">Motor G4</h2>
+                    </div>
+                    <div class="mdl-card__actions">
+                      <input class="mdl-slider mdl-js-slider" type="range" id="sl4"
+                        min="-1" max="1" value="0" step="0.01" tabindex="0"/>
+                    </div>                 
+                    <div class="mdl-card__menu">
+                       <label class="mdl-switch mdl-js-switch" for="switch_sl4"> 
+                         <input type="checkbox" id="switch_sl4" class="mdl-switch__input motorSwitch" checked />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <!-- Grid start -->
+                <div class="mdl-grid">
+                  <!-- Slider container start -->
+                  <div class="motorSlider mdl-cell mdl-card mdl-shadow--2dp">  
+                    <div class="mdl-card__title">
+                      <h2 class="mdl-card__title-text">Motor P1</h2>
+                    </div>
+                    <div class="mdl-card__actions">
+                      <input class="mdl-slider mdl-js-slider" type="range" id="sl1"
+                        min="-1" max="1" value="0" step="0.01" tabindex="0"/>
+                    </div>                 
+                    <div class="mdl-card__menu">
+                       <label class="mdl-switch mdl-js-switch" for="switch_sl1"> 
+                         <input type="checkbox" id="switch_sl1" class="mdl-switch__input motorSwitch" checked />
+                      </label>
+                    </div>
+                  </div> 
+                  <!-- Slider container start -->
+                  <div class="motorSlider mdl-cell mdl-card mdl-shadow--2dp">  
+                    <div class="mdl-card__title">
+                      <h2 class="mdl-card__title-text">Motor P5</h2>
+                    </div>
+                    <div class="mdl-card__actions">
+                      <input class="mdl-slider mdl-js-slider" type="range" id="sl5"
+                        min="-1" max="1" value="0" step="0.01" tabindex="0"/>
+                    </div>                 
+                    <div class="mdl-card__menu">
+                       <label class="mdl-switch mdl-js-switch" for="switch_sl5"> 
+                         <input type="checkbox" id="switch_sl5" class="mdl-switch__input motorSwitch" checked />
+                      </label>
+                    </div>
+                  </div> 
+                  <!-- Slider container start -->
+                  <div class="motorSlider mdl-cell mdl-card mdl-shadow--2dp">  
+                    <div class="mdl-card__title">
+                      <h2 class="mdl-card__title-text">Motor P3</h2>
+                    </div>
+                    <div class="mdl-card__actions">
+                      <input class="mdl-slider mdl-js-slider" type="range" id="sl3"
+                        min="-1" max="1" value="0" step="0.01" tabindex="0"/>
+                    </div>                 
+                    <div class="mdl-card__menu">
+                       <label class="mdl-switch mdl-js-switch" for="switch_sl3"> 
+                         <input type="checkbox" id="switch_sl3" class="mdl-switch__input motorSwitch" checked />
+                      </label>
+                    </div>
+                  </div> 
+              </div><!-- Grid end --> 
+              <!-- Grid start -->
+                <div class="mdl-grid">
+                  <!-- Slider container start -->
+                  <div class="motorSlider mdl-cell mdl-card mdl-shadow--2dp">  
+                    <div class="mdl-card__title">
+                      <h2 class="mdl-card__title-text">Motor P1 P3 P5</h2>
+                    </div>
+                    <div class="mdl-card__actions">
+                      <input class="mdl-slider mdl-js-slider" type="range" id="sl135"
+                        min="-1" max="1" value="0" step="0.01" tabindex="0"/>
+                    </div>                 
+                    <div class="mdl-card__menu">
+                       <label class="mdl-switch mdl-js-switch" for="switch_sl135"> 
+                         <input type="checkbox" id="switch_sl135" class="mdl-switch__input motorSwitch" checked/>
+                      </label>
+                    </div>
+                  </div> 
+                  <!-- Slider container start -->
+                  <div class="motorSlider mdl-cell mdl-card mdl-shadow--2dp">  
+                    <div class="mdl-card__title">
+                      <h2 class="mdl-card__title-text">Motor G0 G2 G4</h2>
+                    </div>
+                    <div class="mdl-card__actions">
+                      <input class="mdl-slider mdl-js-slider" type="range" id="sl024"
+                        min="-1" max="1" value="0" step="0.01" tabindex="0"/>
+                    </div>                 
+                    <div class="mdl-card__menu">
+                       <label class="mdl-switch mdl-js-switch" for="switch_sl024"> 
+                         <input type="checkbox" id="switch_sl024" class="mdl-switch__input motorSwitch" checked/>
+                      </label>
+                    </div>
+                  </div> 
+                  <!-- Slider container start -->
+                  <div class="motorSlider mdl-cell mdl-card mdl-shadow--2dp">  
+                    <div class="mdl-card__title">
+                      <h2 class="mdl-card__title-text">Motor G0 G2 G4 P1 P3 P5</h2>
+                    </div>
+                    <div class="mdl-card__actions">
+                      <input class="mdl-slider mdl-js-slider" type="range" id="sl024135"
+                        min="-1" max="1" value="0" step="0.01" tabindex="0"/>
+                    </div>                 
+                    <div class="mdl-card__menu">
+                       <label class="mdl-switch mdl-js-switch" for="switch_sl024135"> 
+                         <input type="checkbox" id="switch_sl024135" class="mdl-switch__input motorSwitch" checked/>
+                      </label>
+                    </div>
+                  </div> 
+              </div><!-- Grid end --> 
+            </div><!-- Page content -->
+            </section>
+                    
+            <section class="mdl-layout__tab-panel" id="fixed-tab-2">
+              <div class="page-content">
+                <div class="mdl-grid">
+                  <!-- Slider container start -->
+                  <div class="motorSlider mdl-cell mdl-card mdl-shadow--2dp" id="step0">  
+                    <div class="mdl-card__title">
+                      <h2 class="mdl-card__title-text">Step 0</h2>
+                    </div>
+                    <div class="mdl-card__actions">
+                      <input class="mdl-slider mdl-js-slider" type="range" id="sl_step0"
+                        min="-1" max="1" value="0" step="0.01" tabindex="0"/>
+                    </div>         
+                    <div class="mdl-card__supporting-text">
+                      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect buttonGroup" value="0">
+                        G0
+                      </button>
+                      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect buttonGroup" value="1">
+                        P1
+                      </button>
+                      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect buttonGroup" value="2">
+                        G2
+                      </button>
+                      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect buttonGroup" value="3">
+                        P3
+                      </button>
+                      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect buttonGroup" value="4">
+                        G4
+                      </button>
+                      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect buttonGroup" value="5">
+                        P5
+                      </button>
+                    </div>
+                    <div class="mdl-card__menu">
+                       <label class="mdl-switch mdl-js-switch" for="switch_st0"> 
+                         <input type="checkbox" id="switch_st0" class="mdl-switch__input stepSwitch" checked />
+                      </label>
+                    </div>
+                  </div> <!--mdl card mdl-cell -->
+                </div> <!-- mdl-grid -->
+              </div> <!-- page-content -->
+            </section> <!-- mdl-layout __tab-panel -->
+
+            <section class="mdl-layout__tab-panel" id="fixed-tab-3">
+              <div class="page-content">
+                <h1>Hello World!</h1>
+                <div id="future"></div>
+                <form id="form" id="chat_form">
+                    <input id="chat_input" type="text">
+                    <input type="submit" value="Send">
+                </form>
+              </div>
+            </section>
+            <section class="mdl-layout__tab-panel" id="fixed-tab-4">
+              <div class="page-content"><!-- Your content goes here --></div>
+            </section>
+          </main>        
+
+        <footer id="ftconsole" class="mdl-mini-footer">
+          <div id="console"  class="mdl-mini-footer__left-section"/>
+        </footer>
+
+        </div>
+    </body>
+
+</html> 
+
+<script>  
+    var socket = io.connect(io.origins);
+    socket.on('connect', function(data) {
+        //socket.emit('join', 'Hello World from client');
+        //Update console
+        updateConsole("Connected to server");
+    });
+    socket.on('disconnect', function(data) {
+        updateConsole("Lost connection to server!");
+    });
+    
+    // Message receiver from server
+    socket.on('messages', function(data) {
+        alert(data);
+    });
+
+    // Update div "future" content
+    socket.on('broad', function(data) {
+         $('#future').html(data);
+    });
+
+    // Update console
+    socket.on('log', function(data) {
+        updateConsole(data);
+    });
+
+    // Prevent submit button, send message to server 
+    $('form').submit(function(event){
+        event.preventDefault();
+        var message = $('#chat_input').val();
+        socket.emit('messages', message);
+    });
+
+    // Motor sliders
+    $("input.mdl-slider").on('change', function(event){
+        event.preventDefault();
+        // Send id and updated value
+        var id = this.id;
+        var value = this.value;
+        socket.emit('slmouseup', id+":"+value);
+    });
+    
+    $('input.motorSwitch').on('change', function(event){
+        //event.preventDefault();
+        // Send id and updated value
+        var id = this.id;
+        id = id.split('_')[1]; //Remove the 'switch_' id part
+        // TODO: ONLY STOPS!
+        var value = 0;
+        socket.emit('slmouseup', id+":"+value);
+    });
+    
+    $('button.buttonGroup').on('mousedown', function(event){
+        //event.preventDefault();
+        // Send id and updated value
+        var id = this.id;
+        // TODO: ONLY STOPS!
+        updateConsole("Gruoup ");
+        //var value = (this.checked() ? this.parentNode.$('mdl-slider').value : 0);
+        
+        //socket.emit('slmouseup', id+":"+value);
+    });
+
+    $('#btConnect').on('click', function(event) {
+        //event.preventDefault();    
+        // TODO: Remove clean console in the future
+        cleanConsole();
+        socket.emit('connectHID');
+    });
+
+    $('#btDisconnect').on('mousedown', function(event) {
+        //event.preventDefault();   
+       socket.emit('disconnectHID');
+    });
+    
+    function updateConsole(data){
+        $('#console').append("<p>"+data+"</p>");
+	      var scrollPosition = $('#ftconsole').height() + $('#ftconsole').scrollTop();
+        $('#ftconsole').scrollTop(scrollPosition);
+    } 
+
+    function cleanConsole(){
+        $('#console').html("");
+    } 
+</script>
